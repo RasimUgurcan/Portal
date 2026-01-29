@@ -723,7 +723,7 @@ main.is-visible {
 }
 
 .section {
-  padding: 80px 0;
+  padding: 60px 0;
 }
 
 .section.alt {
@@ -1151,9 +1151,20 @@ main>.section:first-of-type .section-head p {
 }
 
 .cta {
-  padding: 60px 0;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: #fff;
+  padding: 80px 0;
+  background: #fff;
+  color: #0f172a;
+  border-top: 1px solid #e2e8f0;
+}
+
+.cta h2 {
+  color: #0f172a;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.cta p {
+  color: #475569;
 }
 
 .cta-grid {
@@ -1633,7 +1644,7 @@ main>.section:first-of-type .section-head p {
   display: flex;
   align-items: center;
   background: #0f172a url('/assets/hero-bg.png') no-repeat center center / cover;
-  padding: 80px 0;
+  padding: 80px 0 40px;
   color: #fff;
   overflow: hidden;
 }

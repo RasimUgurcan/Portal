@@ -4,26 +4,34 @@ require_once __DIR__ . '/helpers.php';
 function get_db(): PDO
 {
     static $pdo;
+    static $schemaChecked = false;
+
     if ($pdo instanceof PDO) {
-        return $pdo;
+        if ($schemaChecked) return $pdo;
+    } else {
+        $config = load_config();
+        $dbPath = $config['database_path'];
+
+        $dir = dirname($dbPath);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        $pdo = new PDO('sqlite:' . $dbPath);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $pdo->exec('PRAGMA foreign_keys = ON');
     }
 
-    $config = load_config();
-    $dbPath = $config['database_path'];
-
-    $dir = dirname($dbPath);
-    if (!is_dir($dir)) {
-        mkdir($dir, 0755, true);
+    if (!$schemaChecked) {
+        $config = load_config();
+        ensure_schema($pdo, $config);
+        $schemaChecked = true;
     }
 
-    $pdo = new PDO('sqlite:' . $dbPath);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $pdo->exec('PRAGMA foreign_keys = ON');
-
-    ensure_schema($pdo, $config);
     return $pdo;
 }
+
 
 function ensure_schema(PDO $pdo, array $config): void
 {
