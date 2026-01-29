@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and API areas
+Disallow: /portal
+Disallow: /api/
+Disallow: /storage/
+
+# Allow important pages
+Allow: /
+Allow: /danismanlik/
+Allow: /belgelendirme/
+Allow: /egitim/
+Allow: /denetim/
+Allow: /hakkimizda/
+Allow: /iletisim/
+
+# Sitemap location
+Sitemap: https://eysglobal.com.tr/sitemap.xml

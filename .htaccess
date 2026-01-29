@@ -1,0 +1,166 @@
+Options -Indexes
+
+# Performans Optimizasyonu: Gzip Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Performans Optimizasyonu: Browser Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# Performans Optimizasyonu: Cache-Control Headers
+<IfModule mod_headers.c>
+    # CSS ve JS için cache
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    # Görseller için cache
+    <FilesMatch "\.(svg|png|jpg|jpeg|gif|webp|woff2|woff)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    # HTML için kısa cache
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "public, max-age=3600, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# PHP Güvenlik Ayarları
+<IfModule mod_php7.c>
+    php_flag display_errors Off
+    php_flag log_errors On
+    php_flag allow_url_fopen Off
+    php_flag allow_url_include Off
+    php_flag expose_php Off
+    php_value max_execution_time 30
+    php_value max_input_time 30
+    php_value memory_limit 128M
+    php_value post_max_size 10M
+    php_value upload_max_filesize 5M
+</IfModule>
+
+# Güvenlik: Şüpheli URL'leri ve zararlı dosyaları engelle
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # ====================================
+    # SEO REDIRECTS - Search Console Fix
+    # ====================================
+    
+    # 1. Force www to non-www (www.eysglobal.com.tr → eysglobal.com.tr)
+    RewriteCond %{HTTP_HOST} ^www\.eysglobal\.com\.tr$ [NC]
+    RewriteRule ^(.*)$ https://eysglobal.com.tr/$1 [R=301,L]
+    
+    # 2. Force HTTP to HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} !^www\. [NC]
+    RewriteRule ^(.*)$ https://eysglobal.com.tr/$1 [R=301,L]
+    
+    # 3. Remove trailing slash (except root directory and existing directories)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} ^(.+)/$
+    RewriteRule ^(.+)/$ /$1 [R=301,L]
+    
+    # ====================================
+    # SECURITY RULES
+    # ====================================
+    
+    # Şüpheli dosya ve dizinleri engelle
+    RewriteRule ^home/ - [F,L]
+    RewriteRule ^z0f76a1d14fd21a8fb5fd0d03e0fdc3d3cedae52f - [F,L]
+    RewriteRule wsidchk - [F,L]
+    RewriteRule pdata - [F,L]
+    
+    # Şüpheli parametreleri engelle
+    RewriteCond %{QUERY_STRING} wsidchk [NC,OR]
+    RewriteCond %{QUERY_STRING} pdata [NC,OR]
+    RewriteCond %{QUERY_STRING} z0f76a1d14fd21a8fb5fd0d03e0fdc3d3cedae52f [NC]
+    RewriteRule .* - [F,L]
+    
+    # Zararlı karakterleri engelle
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.) [OR]
+    RewriteCond %{QUERY_STRING} (boot\.ini|etc/passwd|self/environ) [OR]
+    RewriteCond %{QUERY_STRING} (thumbs?\.db|\.htaccess|\.htpasswd) [NC]
+    RewriteRule .* - [F,L]
+    
+    # Normal rewrite kuralları
+    RewriteRule ^portal/?$ /portal.html [L]
+</IfModule>
+
+# Zararlı dosya yüklemelerini engelle (API dizini hariç)
+<FilesMatch "\.(php|phtml|php3|php4|php5|phps|phar|pht|suspected|malware|virus|shell|backdoor|cmd|exec|eval|base64|gzinflate|str_rot13|assert|system|passthru|shell_exec|proc_open|popen|curl_exec|curl_multi_exec|parse_str|file_get_contents|file_put_contents|fwrite|fputs|fopen|readfile|include|require|include_once|require_once|move_uploaded_file|copy|rename|unlink|delete|rmdir|mkdir|chmod|chown)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# API dizinindeki PHP dosyalarına izin ver
+<DirectoryMatch "^.*/api/">
+    <FilesMatch "\.php$">
+        <IfModule mod_authz_core.c>
+            Require all granted
+        </IfModule>
+    </FilesMatch>
+</DirectoryMatch>
+
+# Şüpheli dosya isimlerini engelle
+<FilesMatch "^(z0f|wsidchk|pdata|home|shell|backdoor|cmd|exec|eval|base64|gzinflate|str_rot13|assert|system|passthru|shell_exec|proc_open|popen|curl_exec|curl_multi_exec|parse_str|file_get_contents|file_put_contents|fwrite|fputs|fopen|readfile|include|require|include_once|require_once|move_uploaded_file|copy|rename|unlink|delete|rmdir|mkdir|chmod|chown)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# Hassas dosyaları koru
+<FilesMatch "^(\.htaccess|\.htpasswd|\.git|\.env|config\.php|db\.php|\.sqlite|\.db)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    # Content Security Policy - Güvenli CSP
+    # Portal sayfası için özel CSP (strict-dynamic olmadan - external script'ler için)
+    <FilesMatch "^(portal\.html)$">
+        Header unset Content-Security-Policy
+        Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-hashes' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://flagcdn.com https://www.googletagmanager.com https://images.unsplash.com; connect-src 'self' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; frame-src 'self' https://www.googletagmanager.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+    </FilesMatch>
+    # Diğer sayfalar için CSP (GTM için strict-dynamic kaldırıldı, frame-src eklendi)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-hashes' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://flagcdn.com https://www.googletagmanager.com https://images.unsplash.com; connect-src 'self' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; frame-src 'self' https://www.googletagmanager.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+    
+    # Cross-Origin-Opener-Policy - Pop-up izolasyonu için (XSS koruması)
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+    
+    # Cross-Origin-Resource-Policy - Kaynak koruması
+    Header always set Cross-Origin-Resource-Policy "same-origin"
+    
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Zararlı içerik tespiti için ek güvenlik başlıkları
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Güvenlik izleme için ek başlıklar
+    Header always set X-Powered-By ""
+    Header unset Server
+    Header unset X-Powered-By
+</IfModule>

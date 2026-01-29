@@ -1,0 +1,12 @@
+# API dizini için özel izinler
+<IfModule mod_authz_core.c>
+    # API dizinindeki tüm dosyalara erişim izni ver
+    Require all granted
+</IfModule>
+
+# PHP dosyalarının çalıştırılmasına izin ver
+<FilesMatch "\.php$">
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+</FilesMatch>

@@ -1,0 +1,25 @@
+{
+  "name": "inspection-portal-email-api",
+  "version": "1.0.0",
+  "description": "Backend Email API for Inspection Portal",
+  "main": "backend-email-api.js",
+  "scripts": {
+    "start": "node backend-email-api.js",
+    "dev": "nodemon backend-email-api.js"
+  },
+  "keywords": [
+    "email",
+    "smtp",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemailer": "^7.0.12"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

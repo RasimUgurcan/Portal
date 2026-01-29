@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TJHQKPJQ');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EYS Global - Advanced Client Portal</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>E</text></svg>">
+    <link rel="stylesheet" href="/portal-exact-copy.css?v=4">
+    <link rel="stylesheet" href="/portal-enhancements.css?v=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJHQKPJQ" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="logo-section">
+                    <h1>EYS Global</h1>
+                    <p data-i18n="advanced_client_portal">Advanced Client Portal</p>
+                </div>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label data-i18n="email">Email</label>
+                        <input type="email" id="loginEmail" required placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="password">Password</label>
+                        <input type="password" id="loginPassword" required data-i18n-placeholder="enter_password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="signin">Sign In</button>
+                    <div class="auth-switch">
+                        <span data-i18n="no_account">No account?</span>
+                        <button type="button" class="auth-toggle" id="showRegister" data-i18n="create_account">Create
+                            Account</button>
+                    </div>
+                    <div class="demo-credentials auth-hidden">
+                        <p><strong data-i18n="demo_accounts">Demo Accounts:</strong></p>
+                        <p data-i18n="admin_demo">Admin: admin@inspection.com / admin123</p>
+                        <p data-i18n="client_demo">Client: client@company.com / client123</p>
+                    </div>
+                </form>
+                <form id="registerForm" class="login-form auth-hidden">
+                    <div class="form-group">
+                        <label data-i18n="full_name">Full Name</label>
+                        <input type="text" id="registerName" required data-i18n-placeholder="full_name_placeholder">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="email">Email</label>
+                        <input type="email" id="registerEmail" required placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="password">Password</label>
+                        <input type="password" id="registerPassword" required data-i18n-placeholder="enter_password">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-i18n="company">Company</label>
+                            <input type="text" id="registerCompany" data-i18n-placeholder="company_placeholder">
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="phone">Phone</label>
+                            <input type="text" id="registerPhone" data-i18n-placeholder="phone_placeholder">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="register">Register</button>
+                    <div class="auth-switch">
+                        <span data-i18n="have_account">Already have an account?</span>
+                        <button type="button" class="auth-toggle" id="showLogin" data-i18n="signin">Sign In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Dashboard -->
+    <div id="clientScreen" class="screen">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="language-selector" id="languageSelector">
+                    <img src="https://flagcdn.com/w20/tr.png" srcset="https://flagcdn.com/w40/tr.png 2x" width="20"
+                        alt="Türkçe" data-lang="tr">
+                    <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="20"
+                        alt="English" data-lang="en">
+                </div>
+                <div class="header-actions">
+                    <button class="notification-button" onclick="showNotifications('client')"
+                        aria-label="Notifications">
+                        <span class="notification-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-5-5.91V4a1 1 0 0 0-2 0v1.09A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z" />
+                            </svg>
+                        </span>
+                        <span class="notification-badge" id="clientNotificationBadge">0</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="admin-container">
+                <nav class="admin-nav">
+                    <div class="nav-group-title">OVERVIEW</div>
+                    <button class="nav-btn active" onclick="showClientSection('dashboard')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1" />
+                            <rect x="14" y="3" width="7" height="7" rx="1" />
+                            <rect x="3" y="14" width="7" height="7" rx="1" />
+                            <rect x="14" y="14" width="7" height="7" rx="1" />
+                        </svg>
+                        Dashboard
+                    </button>
+                    <button class="nav-btn" onclick="showClientSection('timeline')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        Timeline
+                    </button>
+                    <div class="nav-group-title">COMPLIANCE</div>
+                    <button class="nav-btn" onclick="showClientSection('inspections')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        Audits & Inspections
+                    </button>
+                    <button class="nav-btn" onclick="showClientSection('actions')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 11 12 14 22 4" />
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                        </svg>
+                        Action Tracker
+                    </button>
+                    <button class="nav-btn" onclick="showClientSection('certificates')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                        Certificates
+                    </button>
+                    <div class="nav-group-title">INSIGHTS</div>
+                    <button class="nav-btn" onclick="showClientSection('risk')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        Risk Dashboard
+                    </button>
+                    <button class="nav-btn" onclick="showClientSection('sustainability')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            <path d="M2 12h20" />
+                        </svg>
+                        Sustainability
+                    </button>
+                    <div class="nav-group-title">RESOURCES</div>
+                    <button class="nav-btn" onclick="showClientSection('learning')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                        </svg>
+                        Learning Center
+                    </button>
+                    <button class="nav-btn" onclick="showClientSection('documents')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                        </svg>
+                        My Documents
+                    </button>
+                    <div class="admin-profile">
+                        <div class="admin-profile-avatar" id="clientAvatar">C</div>
+                        <div class="admin-profile-info">
+                            <div class="admin-profile-name" id="clientName">Client</div>
+                            <div class="admin-profile-role">CLIENT</div>
+                        </div>
+                        <button class="admin-profile-logout" onclick="logout()">
+                            <span>↪</span> Logout
+                        </button>
+                    </div>
+                </nav>
+                <div class="admin-content">
+                    <div id="clientDashboard" class="admin-section active">
+                        <div class="dashboard-header">
+                            <h2 data-i18n="my_dashboard">My Dashboard</h2>
+                            <div class="date-filter">
+                                <select id="clientDateFilter" onchange="loadClientDashboard()">
+                                    <option value="all" data-i18n-option="all_time">All Time</option>
+                                    <option value="month" data-i18n-option="this_month">This Month</option>
+                                    <option value="quarter" data-i18n-option="this_quarter">This Quarter</option>
+                                    <option value="year" data-i18n-option="this_year">This Year</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon-box orange">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="m21 21-4.35-4.35" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">INSPECTIONS</div>
+                                    <div class="stat-value" id="clientTotalInspections">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-box purple">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">PENDING</div>
+                                    <div class="stat-value" id="clientPendingInspections">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-box green">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 6L9 17l-5-5" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">COMPLETED</div>
+                                    <div class="stat-value" id="clientCompletedInspections">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-box blue">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <polyline points="14 2 14 8 20 8" />
+                                        <path d="m9 15 2 2 4-4" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">CERTIFICATES</div>
+                                    <div class="stat-value" id="clientExpiringCertificates">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts Section -->
+                        <div class="charts-grid">
+                            <div class="chart-card">
+                                <h3 data-i18n="inspections_overview">Inspections Overview</h3>
+                                <canvas id="clientInspectionsChart"></canvas>
+                            </div>
+                            <div class="chart-card">
+                                <h3 data-i18n="certificates_status">Certificates Status</h3>
+                                <canvas id="clientCertificatesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Inspections List -->
+                        <div class="section-header">
+                            <h3 data-i18n="my_inspections">My Inspections</h3>
+                            <div class="filter-buttons">
+                                <button class="filter-btn active" onclick="filterClientInspections('all')"
+                                    data-i18n="all">All</button>
+                                <button class="filter-btn" onclick="filterClientInspections('pending')"
+                                    data-i18n="pending">Pending</button>
+                                <button class="filter-btn" onclick="filterClientInspections('completed')"
+                                    data-i18n="completed">Completed</button>
+                            </div>
+                        </div>
+                        <div class="inspections-list" id="clientInspectionsList"></div>
+
+                        <!-- Certificates Section -->
+                        <div class="section-header">
+                            <h3 data-i18n="my_certificates">My Certificates</h3>
+                        </div>
+                        <div class="certificates-list" id="clientCertificatesList"></div>
+
+                        <!-- Documentation Section -->
+                        <div class="section-header">
+                            <h3 data-i18n="documentation">Documentation</h3>
+                        </div>
+                        <div class="table-controls">
+                            <input type="text" id="clientDocumentsSearch" data-i18n-placeholder="search_documents"
+                                class="search-input" onkeyup="loadClientDocuments()">
+                        </div>
+                        <div class="documents-list" id="clientDocumentsList"></div>
+                    </div>
+
+                    <div id="clientInspections" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="my_inspections">My Inspections</h2>
+                            <div class="filter-buttons">
+                                <button class="filter-btn active" onclick="filterClientInspections('all')"
+                                    data-i18n="all">All</button>
+                                <button class="filter-btn" onclick="filterClientInspections('pending')"
+                                    data-i18n="pending">Pending</button>
+                                <button class="filter-btn" onclick="filterClientInspections('completed')"
+                                    data-i18n="completed">Completed</button>
+                            </div>
+                        </div>
+                        <div class="inspections-list" id="clientInspectionsListFull"></div>
+                    </div>
+
+                    <div id="clientCertificates" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="my_certificates">My Certificates</h2>
+                        </div>
+                        <div class="certificates-list" id="clientCertificatesListFull"></div>
+                    </div>
+
+                    <div id="clientDocuments" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="documentation">Documentation</h2>
+                        </div>
+                        <div class="table-controls">
+                            <input type="text" id="clientDocumentsSearchFull" data-i18n-placeholder="search_documents"
+                                class="search-input" onkeyup="loadClientDocuments()">
+                        </div>
+                        <div class="documents-list" id="clientDocumentsListFull"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminScreen" class="screen">
+        <header class="app-header">
+            <div class="header-content">
+                <h1>EYS Global - Admin Panel</h1>
+                <div class="admin-status">Systems online</div>
+                <div class="language-selector" id="adminLanguageSelector">
+                    <img src="https://flagcdn.com/w20/tr.png" srcset="https://flagcdn.com/w40/tr.png 2x" width="20"
+                        alt="T&uuml;rk&ccedil;e" data-lang="tr">
+                    <img src="https://flagcdn.com/w20/gb.png" srcset="https://flagcdn.com/w40/gb.png 2x" width="20"
+                        alt="English" data-lang="en">
+                </div>
+                <div class="header-actions">
+                    <div class="header-search">
+                        <input type="search" placeholder="Search global data..." aria-label="Search">
+                    </div>
+                    <button class="notification-button" onclick="showNotifications('admin')" aria-label="Notifications">
+                        <span class="notification-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-5-5.91V4a1 1 0 0 0-2 0v1.09A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z" />
+                            </svg>
+                        </span>
+                        <span class="notification-badge" id="adminNotificationBadge">0</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="admin-container">
+                <nav class="admin-nav">
+                    <div class="nav-group-title">Core Console</div>
+                    <button class="nav-btn active" onclick="showAdminSection('dashboard')" data-i18n="dashboard">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1" />
+                            <rect x="14" y="3" width="7" height="7" rx="1" />
+                            <rect x="3" y="14" width="7" height="7" rx="1" />
+                            <rect x="14" y="14" width="7" height="7" rx="1" />
+                        </svg>
+                        Dashboard
+                    </button>
+                    <button class="nav-btn" onclick="showAdminSection('inspections')" data-i18n="inspections">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        Inspections
+                    </button>
+                    <button class="nav-btn" onclick="showAdminSection('certificates')" data-i18n="certificates">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                        Certificates
+                    </button>
+                    <button class="nav-btn" onclick="showAdminSection('clients')" data-i18n="clients">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Clients
+                    </button>
+                    <button class="nav-btn" onclick="showAdminSection('reports')" data-i18n="reports">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                            <line x1="6" y1="20" x2="6" y2="14" />
+                        </svg>
+                        Reports
+                    </button>
+                    <div class="nav-group-title">Internal</div>
+                    <button class="nav-btn" onclick="showAdminSection('documentation')" data-i18n="documentation">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                        </svg>
+                        Documentation
+                    </button>
+                    <button class="nav-btn" onclick="showAdminSection('notifications')" data-i18n="notifications">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                        Notifications
+                    </button>
+                    <button class="nav-btn" onclick="showAdminSection('settings')" data-i18n="settings">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                        Settings
+                    </button>
+                    <div class="admin-profile">
+                        <div class="admin-profile-avatar">A</div>
+                        <div class="admin-profile-info">
+                            <div class="admin-profile-name" id="adminSidebarName">Admin</div>
+                            <div class="admin-profile-role">Managing Partner</div>
+                        </div>
+                        <button class="admin-profile-logout" onclick="logout()" data-i18n="logout">Sign Out</button>
+                    </div>
+                </nav>
+                <div class="admin-content">
+
+                    <!-- Admin Dashboard Section -->
+                    <div id="adminDashboard" class="admin-section active">
+                        <div class="dashboard-header">
+                            <div>
+                                <h2 data-i18n="partner_dashboard">Partner Dashboard</h2>
+                                <p class="dashboard-subtitle" id="adminLastUpdated">Last updated: --</p>
+                            </div>
+                            <div class="dashboard-actions">
+                                <button class="btn btn-secondary" data-i18n="export_data">Export Data</button>
+                                <button class="btn btn-primary" onclick="showAddClientModal()" data-i18n="new_client">+
+                                    New Client</button>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon-box blue">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                        <circle cx="9" cy="7" r="4" />
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">CLIENTS</div>
+                                    <div class="stat-value" id="adminTotalClients">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-box green">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <polyline points="14 2 14 8 20 8" />
+                                        <path d="m9 15 2 2 4-4" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">CERTIFICATES</div>
+                                    <div class="stat-value" id="adminTotalCertificates">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-box orange">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="m21 21-4.35-4.35" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">INSPECTIONS</div>
+                                    <div class="stat-value" id="adminTotalInspections">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-box purple">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-label">PENDING</div>
+                                    <div class="stat-value" id="adminPendingCount">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-dashboard-grid">
+                            <div class="admin-main">
+                                <div class="admin-card admin-activity">
+                                    <div class="card-header">
+                                        <div>
+                                            <h3>Client Activity</h3>
+                                            <p>Recent client actions and events</p>
+                                        </div>
+                                    </div>
+                                    <div class="activity-list" id="activityList">
+                                        <!-- Activity items will be loaded here -->
+                                    </div>
+                                </div>
+
+                                <div class="charts-grid">
+                                    <div class="chart-card">
+                                        <h3 data-i18n="inspections_trend">Inspections Trend</h3>
+                                        <canvas id="adminInspectionsTrendChart"></canvas>
+                                    </div>
+                                    <div class="chart-card">
+                                        <h3 data-i18n="inspections_by_type">Inspections by Type</h3>
+                                        <canvas id="adminInspectionsTypeChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <aside class="admin-side">
+                                <div class="admin-card admin-alerts">
+                                    <h3>System Alerts</h3>
+                                    <div class="alert-list" id="adminAlertsList"></div>
+                                </div>
+                                <div class="admin-card admin-utilization">
+                                    <h3>Resource Utilization</h3>
+                                    <p>Firm-wide availability tracking.</p>
+                                    <div class="utilization-bar">
+                                        <div class="utilization-progress" id="adminUtilizationProgress"></div>
+                                    </div>
+                                    <div class="utilization-meta">
+                                        <span>Consultant Allocation</span>
+                                        <span id="adminUtilizationPercent">0%</span>
+                                    </div>
+                                    <button class="btn btn-secondary btn-block">View Team Schedules</button>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+
+                    <!-- Inspections Management Section -->
+                    <div id="adminInspections" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="inspections">Manage Inspections</h2>
+                            <button class="btn btn-primary" onclick="showAddInspectionModal()"
+                                data-i18n="new_inspection">+ New Inspection</button>
+                        </div>
+                        <div class="table-controls">
+                            <input type="text" id="inspectionSearch" data-i18n-placeholder="search_inspections"
+                                class="search-input" onkeyup="filterInspectionsTable()">
+                            <select id="inspectionStatusFilter" onchange="filterInspectionsTable()"
+                                class="filter-select">
+                                <option value="" data-i18n-option="all_status">All Status</option>
+                                <option value="Scheduled" data-i18n-option="scheduled">Scheduled</option>
+                                <option value="In Progress" data-i18n-option="in_progress">In Progress</option>
+                                <option value="Completed" data-i18n-option="completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="id">ID</th>
+                                        <th data-i18n="client">Client</th>
+                                        <th data-i18n="location">Location</th>
+                                        <th data-i18n="type">Type</th>
+                                        <th data-i18n="date">Date</th>
+                                        <th data-i18n="status">Status</th>
+                                        <th data-i18n="reports_col">Reports</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminInspectionsTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Certificates Management Section -->
+                    <div id="adminCertificates" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="certificates">Manage Certificates</h2>
+                            <button class="btn btn-primary" onclick="showAddCertificateModal()"
+                                data-i18n="new_certificate">+ New Certificate</button>
+                        </div>
+                        <div class="table-controls">
+                            <input type="text" id="certificateSearch" data-i18n-placeholder="search_certificates"
+                                class="search-input" onkeyup="filterCertificatesTable()">
+                            <select id="certificateStatusFilter" onchange="filterCertificatesTable()"
+                                class="filter-select">
+                                <option value="" data-i18n-option="all_status">All Status</option>
+                                <option value="Active" data-i18n-option="active">Active</option>
+                                <option value="Expiring Soon" data-i18n-option="expiring_soon">Expiring Soon</option>
+                                <option value="Expired" data-i18n-option="expired">Expired</option>
+                            </select>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="certificate_number">Certificate Number</th>
+                                        <th data-i18n="client">Client</th>
+                                        <th data-i18n="type">Type</th>
+                                        <th data-i18n="issue_date">Issue Date</th>
+                                        <th data-i18n="expiry_date">Expiry Date</th>
+                                        <th data-i18n="status">Status</th>
+                                        <th data-i18n="days_remaining">Days Remaining</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminCertificatesTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Clients Management Section -->
+                    <div id="adminClients" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="clients">Manage Clients</h2>
+                            <button class="btn btn-primary" onclick="showAddClientModal()" data-i18n="new_client">+ New
+                                Client</button>
+                        </div>
+                        <div class="admin-list-card" id="adminUsersList"></div>
+                        <div class="table-controls">
+                            <input type="text" id="clientSearch" data-i18n-placeholder="search_clients"
+                                class="search-input" onkeyup="filterClientsTable()">
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="name">Name</th>
+                                        <th data-i18n="email">Email</th>
+                                        <th data-i18n="company">Company</th>
+                                        <th data-i18n="role">Role</th>
+                                        <th data-i18n="last_login">Last Login</th>
+                                        <th data-i18n="inspections_count">Inspections</th>
+                                        <th data-i18n="certificates_count">Certificates</th>
+                                        <th data-i18n="approval_status">Approval</th>
+                                        <th data-i18n="actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminClientsTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Reports Section -->
+                    <div id="adminReports" class="admin-section">
+                        <h2 data-i18n="inspection_reports_documents">Inspection Reports & Documents</h2>
+                        <div class="reports-grid" id="reportsGrid"></div>
+                    </div>
+
+                    <!-- Documentation Section -->
+                    <div id="adminDocumentation" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="documentation">Documentation</h2>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" onclick="showCategoryModal()"
+                                    data-i18n="new_category">+ New Category</button>
+                                <button class="btn btn-primary" onclick="showDocumentModal()"
+                                    data-i18n="upload_document">+ Upload Document</button>
+                            </div>
+                        </div>
+                        <div class="documentation-layout">
+                            <div class="doc-categories">
+                                <h3 data-i18n="categories">Categories</h3>
+                                <div id="docCategoriesList" class="doc-category-list"></div>
+                            </div>
+                            <div class="doc-items">
+                                <h3 data-i18n="documents">Documents</h3>
+                                <div class="doc-client-filter">
+                                    <input type="text" id="docClientSearch" data-i18n-placeholder="search_clients"
+                                        class="search-input" onkeyup="loadDocumentationAdmin()">
+                                    <div id="docClientList" class="doc-client-list"></div>
+                                </div>
+                                <div id="docDocumentsList" class="doc-documents-list"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div id="adminNotifications" class="admin-section">
+                        <div class="section-header">
+                            <h2 data-i18n="email_notifications">Email Notifications</h2>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" onclick="showNotificationSettingsModal()"
+                                    data-i18n="certificate_settings">Certificate Settings</button>
+                                <button class="btn btn-primary" onclick="showNotificationTemplateModal()"
+                                    data-i18n="manage_templates">Manage Templates</button>
+                            </div>
+                        </div>
+                        <div class="notifications-manager">
+                            <div class="notification-templates">
+                                <h3 data-i18n="notification_templates">Notification Templates</h3>
+                                <div class="template-list" id="notificationTemplatesList"></div>
+                            </div>
+                            <div class="notification-history">
+                                <h3 data-i18n="notification_history">Notification History</h3>
+                                <div class="history-list" id="notificationHistoryList"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Section -->
+                    <div id="adminSettings" class="admin-section">
+                        <h2 data-i18n="system_settings">System Settings</h2>
+                        <div class="settings-container">
+                            <div class="settings-section">
+                                <h3 data-i18n="email_configuration">Email Configuration</h3>
+                                <div
+                                    style="background: #fef3c7; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
+                                    <strong data-i18n="info_smtp_backend">Info:</strong> Direct SMTP from the browser is
+                                    not possible for security reasons.
+                                    <strong data-i18n="webmail_smtp_info">Webmail SMTP</strong> details can be used with
+                                    <strong>Backend API</strong> or <strong>EmailJS</strong>.
+                                    <br><small style="margin-top: 8px; display: block;"
+                                        data-i18n="cpanel_webmail_hint">You can enter your cPanel Webmail
+                                        (webmail.eysglobal.com.tr) SMTP settings below.</small>
+                                </div>
+
+                                <h4 style="margin-top: 25px; margin-bottom: 15px;" data-i18n="option1_backend_api">
+                                    Option 1: Backend API (Recommended - Production)</h4>
+                                <form id="backendApiForm" class="settings-form">
+                                    <div class="form-group">
+                                        <label data-i18n="backend_api_url">Backend API URL</label>
+                                        <input type="url" id="backendApiUrl"
+                                            placeholder="https://your-api.com/send-email">
+                                        <small
+                                            style="color: var(--text-secondary); font-size: 12px; display: block; margin-top: 5px;"
+                                            data-i18n="backend_api_url_hint">
+                                            Enter your Backend API endpoint URL (e.g.,
+                                            https://api.example.com/api/send-email)
+                                        </small>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" data-i18n="save_backend_api">Save
+                                        Backend API</button>
+                                </form>
+
+                                <h4 style="margin-top: 30px; margin-bottom: 15px;" data-i18n="option2_emailjs">Option 2:
+                                    EmailJS (Frontend - Free)</h4>
+                                <form id="emailjsForm" class="settings-form">
+                                    <div class="form-group">
+                                        <label>EmailJS Public Key</label>
+                                        <input type="text" id="emailjsPublicKey" placeholder="your-public-key">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>EmailJS Service ID</label>
+                                        <input type="text" id="emailjsServiceId" placeholder="service_xxxxx">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>EmailJS Template ID</label>
+                                        <input type="text" id="emailjsTemplateId" placeholder="template_xxxxx">
+                                    </div>
+                                    <small
+                                        style="color: var(--text-secondary); font-size: 12px; display: block; margin-bottom: 15px;"
+                                        data-i18n="emailjs_hint">
+                                        <a href="https://www.emailjs.com/" target="_blank">EmailJS</a> is a free
+                                        service. You can register and get your API keys.
+                                    </small>
+                                    <button type="submit" class="btn btn-primary" data-i18n="save_emailjs_settings">Save
+                                        EmailJS Settings</button>
+                                </form>
+
+                                <h4 style="margin-top: 30px; margin-bottom: 15px;"
+                                    data-i18n="smtp_settings_backend_api">SMTP Settings (for Backend API)</h4>
+                                <form id="smtpSettingsForm" class="settings-form">
+                                    <div class="form-group">
+                                        <label data-i18n="smtp_server">SMTP Server</label>
+                                        <input type="text" id="smtpServer" placeholder="smtp.gmail.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="smtp_port">SMTP Port</label>
+                                        <input type="number" id="smtpPort" placeholder="587">
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="email_address">Email Address</label>
+                                        <input type="email" id="smtpEmail" placeholder="noreply@inspection.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="password_app_password">Password/App Password</label>
+                                        <input type="password" id="smtpPassword" placeholder="Enter SMTP password">
+                                        <small
+                                            style="color: var(--text-secondary); font-size: 12px; display: block; margin-top: 5px;"
+                                            data-i18n="smtp_password_hint">
+                                            These details are sent to the backend API (not stored in the browser)
+                                        </small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="security">Security</label>
+                                        <select id="smtpSecurity">
+                                            <option value="tls">TLS</option>
+                                            <option value="ssl">SSL</option>
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" data-i18n="save_smtp_settings">Save
+                                        SMTP Settings</button>
+                                </form>
+                            </div>
+                            <div class="settings-section">
+                                <h3 data-i18n="certificate_expiry_notifications">Certificate Expiry Notifications</h3>
+                                <form id="certificateSettingsForm" class="settings-form">
+                                    <div class="form-group">
+                                        <label data-i18n="notify_before_expiry_days">Notify Before Expiry (Days)</label>
+                                        <input type="number" id="certificateNotifyDays" value="30" min="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label data-i18n="auto_send_reminders">Auto-send Reminders</label>
+                                        <input type="checkbox" id="certificateAutoReminder" checked>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" data-i18n="save_settings">Save
+                                        Settings</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add/Edit Inspection Modal -->
+    <div id="inspectionModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="inspectionModalTitle">New Inspection</h3>
+                <button class="modal-close" onclick="closeModal('inspectionModal')">&times;</button>
+            </div>
+            <form id="inspectionForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Client *</label>
+                        <select id="inspectionClient" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Inspection Type *</label>
+                        <select id="inspectionType" required>
+                            <option value="">Select type</option>
+                            <option value="Building Inspection">Building Inspection</option>
+                            <option value="Safety Inspection">Safety Inspection</option>
+                            <option value="Environmental Inspection">Environmental Inspection</option>
+                            <option value="Quality Assurance">Quality Assurance</option>
+                            <option value="Compliance Audit">Compliance Audit</option>
+                            <option value="Fire Safety Inspection">Fire Safety Inspection</option>
+                            <option value="Electrical Inspection">Electrical Inspection</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Location *</label>
+                    <input type="text" id="inspectionLocation" required placeholder="Property address">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Inspection Date *</label>
+                        <input type="date" id="inspectionDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status *</label>
+                        <select id="inspectionStatus" required>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="inspectionNotes" rows="4" placeholder="Additional notes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Reports/Documents</label>
+                    <div class="file-upload-area" id="inspectionFileUpload">
+                        <input type="file" id="inspectionFiles" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                            style="display:none;" onchange="handleFileUpload(this, 'inspection')">
+                        <div class="file-upload-dropzone" onclick="document.getElementById('inspectionFiles').click()">
+                            <div class="upload-icon">&#128206;</div>
+                            <p>Click to upload or drag and drop</p>
+                            <p class="upload-hint">PDF, DOC, DOCX, JPG, PNG (Max 10MB per file)</p>
+                        </div>
+                        <div id="inspectionFilesList" class="files-list"></div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('inspectionModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Inspection</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Certificate Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="certificateModalTitle">New Certificate</h3>
+                <button class="modal-close" onclick="closeModal('certificateModal')">&times;</button>
+            </div>
+            <form id="certificateForm" class="modal-form">
+                <div class="form-group">
+                    <label>Client *</label>
+                    <select id="certificateClient" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Certificate Number *</label>
+                    <input type="text" id="certificateNumber" placeholder="CERT-2024-001">
+                </div>
+                <div class="form-group">
+                    <label>Certificate Type *</label>
+                    <select id="certificateType" required>
+                        <option value="">Select type</option>
+                        <option value="Safety Certificate">Safety Certificate</option>
+                        <option value="Compliance Certificate">Compliance Certificate</option>
+                        <option value="Quality Certificate">Quality Certificate</option>
+                        <option value="Environmental Certificate">Environmental Certificate</option>
+                        <option value="Fire Safety Certificate">Fire Safety Certificate</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Issue Date *</label>
+                        <input type="date" id="certificateIssueDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Expiry Date *</label>
+                        <input type="date" id="certificateExpiryDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="certificateDescription" rows="3" placeholder="Certificate description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Certificate Document</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="certificateFile" accept=".pdf,.jpg,.jpeg,.png" style="display:none;"
+                            onchange="handleCertificateFileUpload(this)">
+                        <div class="file-upload-dropzone" onclick="document.getElementById('certificateFile').click()">
+                            <div class="upload-icon">&#128206;</div>
+                            <p>Click to upload certificate document</p>
+                            <p class="upload-hint">PDF, JPG, PNG (Max 10MB)</p>
+                        </div>
+                        <div id="certificateFileList" class="files-list"></div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('certificateModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Certificate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Client Modal -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="clientModalTitle">New Client</h3>
+                <button class="modal-close" onclick="closeModal('clientModal')">&times;</button>
+            </div>
+            <form id="clientForm" class="modal-form">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="clientFormName" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="clientFormEmail" required placeholder="john@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Company *</label>
+                    <input type="text" id="clientFormCompany" required placeholder="Company Name">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="clientFormPhone" placeholder="+1 234 567 8900">
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="clientFormPassword" required placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="approval_status">Approval</label>
+                    <select id="clientFormApproved">
+                        <option value="1" data-i18n="approved">Approved</option>
+                        <option value="0" data-i18n="pending">Pending</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="role">Role</label>
+                    <select id="clientFormRole">
+                        <option value="client" data-i18n="client">Client</option>
+                        <option value="admin" data-i18n="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('clientModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Client</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="new_category">New Category</h3>
+                <button class="modal-close" onclick="closeModal('categoryModal')">&times;</button>
+            </div>
+            <form id="categoryForm" class="modal-form">
+                <div class="form-group">
+                    <label data-i18n="category_name">Category Name *</label>
+                    <input type="text" id="categoryName" required data-i18n-placeholder="category_name">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('categoryModal')"
+                        data-i18n="cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="save_category">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Document Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 data-i18n="upload_document">Upload Document</h3>
+                <button class="modal-close" onclick="closeModal('documentModal')">&times;</button>
+            </div>
+            <form id="documentForm" class="modal-form">
+                <div class="form-group">
+                    <label data-i18n="categories">Category *</label>
+                    <select id="documentCategory" required></select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="upload_reports_documents">Upload Reports/Documents</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="documentFiles" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                            style="display:none;" onchange="handleFileUpload(this, 'document')">
+                        <div class="file-upload-dropzone" onclick="document.getElementById('documentFiles').click()">
+                            <div class="upload-icon">&#128206;</div>
+                            <p data-i18n="click_to_upload">Click to upload or drag and drop</p>
+                            <p class="upload-hint" data-i18n="file_types_hint">PDF, DOC, DOCX, JPG, PNG (Max 10MB per
+                                file)</p>
+                        </div>
+                        <div id="documentFilesList" class="files-list"></div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('documentModal')"
+                        data-i18n="cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="save_document">Save Document</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Inspection Detail Modal -->
+    <div id="inspectionDetailModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Inspection Details</h3>
+                <button class="modal-close" onclick="closeModal('inspectionDetailModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="inspectionDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- Notification Settings Modal -->
+    <div id="notificationSettingsModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Notification Settings</h3>
+                <button class="modal-close" onclick="closeModal('notificationSettingsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="notificationSettingsForm" class="modal-form">
+                    <div class="form-group">
+                        <label>Notify Before Expiry (Days)</label>
+                        <input type="number" id="modalCertificateNotifyDays" value="30" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Auto-send Reminders</label>
+                        <input type="checkbox" id="modalCertificateAutoReminder" checked>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary"
+                            onclick="closeModal('notificationSettingsModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Template Modal -->
+    <div id="notificationTemplateModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="notificationTemplateModalTitle">New Notification Template</h3>
+                <button class="modal-close" onclick="closeModal('notificationTemplateModal')">&times;</button>
+            </div>
+            <form id="notificationTemplateForm" class="modal-form">
+                <div class="form-group">
+                    <label>Template Type *</label>
+                    <input type="text" id="notificationTemplateType" required placeholder="e.g., inspection_completed">
+                    <small style="color: var(--text-secondary); font-size: 12px; display: block; margin-top: 5px;">
+                        Unique identifier for the template (e.g., certificate_expiring, inspection_info)
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Subject *</label>
+                    <input type="text" id="notificationTemplateSubject" required
+                        placeholder="Email subject. Use {{variableName}} for dynamic content.">
+                </div>
+                <div class="form-group">
+                    <label>Email Body (HTML Supported) *</label>
+                    <textarea id="notificationTemplateBody" rows="10" required
+                        placeholder="Email body content. Use {{clientName}}, {{inspectionType}}, {{expiryDate}} as variables."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('notificationTemplateModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Template</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notifications Panel Overlay -->
+    <div id="notificationsPanelOverlay" class="notifications-panel-overlay" onclick="closeNotificationsPanel()"></div>
+
+    <!-- Notifications Panel -->
+    <div id="notificationsPanel" class="notifications-panel">
+        <div class="notifications-panel-header">
+            <h3>Notifications</h3>
+            <button class="close-btn" onclick="closeNotificationsPanel()" aria-label="Close">&times;</button>
+        </div>
+        <div class="notifications-panel-body" id="notificationsPanelBody"></div>
+    </div>
+
+    <script src="/portal-advanced-script.js?v=17"></script>
+</body>
+
+</html>

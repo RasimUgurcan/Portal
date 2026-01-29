@@ -1,0 +1,16 @@
+# Storage dizini güvenlik ayarları
+Options -Indexes
+
+# PHP dosyalarının çalıştırılmasını engelle
+<FilesMatch "\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# Log dosyalarına erişimi engelle (sadece sunucu erişebilir)
+<FilesMatch "\.(log|txt|json)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
