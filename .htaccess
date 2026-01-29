@@ -1,4 +1,5 @@
 Options -Indexes
+DirectorySlash Off
 
 # Performans Optimizasyonu: Gzip Compression
 <IfModule mod_deflate.c>
@@ -68,10 +69,16 @@ Options -Indexes
     RewriteCond %{HTTP_HOST} !^www\. [NC]
     RewriteRule ^(.*)$ https://eysglobal.com.tr/$1 [R=301,L]
     
-    # 3. Remove trailing slash (except root directory and existing directories)
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # 3. Remove trailing slash (External Redirection)
+    # Even for directories, we want to remove the slash from the URL
     RewriteCond %{REQUEST_URI} ^(.+)/$
     RewriteRule ^(.+)/$ /$1 [R=301,L]
+    
+    # 4. Handle Directory Index Internally (Internal Mapping)
+    # This allows /sss to load sss/index.html WITHOUT showing the slash
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME}/index.html -f
+    RewriteRule ^(.*)$ $1/index.html [L]
     
     # ====================================
     # SECURITY RULES

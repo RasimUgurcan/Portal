@@ -591,13 +591,23 @@
   }
 
   function initFaqFilters() {
+    console.log('[FAQ Filters] Initializing...');
     const filterButtons = document.querySelectorAll('.faq-filter-btn');
     const faqItems = document.querySelectorAll('.faq details');
 
-    if (filterButtons.length === 0) return;
+    console.log('[FAQ Filters] Found', filterButtons.length, 'buttons');
+    console.log('[FAQ Filters] Found', faqItems.length, 'FAQ items');
 
-    filterButtons.forEach(btn => {
+    if (filterButtons.length === 0) {
+      console.warn('[FAQ Filters] No filter buttons found!');
+      return;
+    }
+
+    filterButtons.forEach((btn, index) => {
+      console.log(`[FAQ Filters] Adding listener to button ${index}:`, btn.getAttribute('data-filter'));
       btn.addEventListener('click', () => {
+        console.log('[FAQ Filters] Button clicked:', btn.getAttribute('data-filter'));
+
         // Active buton stilini gÃ¼ncelle
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -617,8 +627,12 @@
             item.style.display = 'none';
           }
         });
+
+        console.log(`[FAQ Filters] Filter applied: ${filter}`);
       });
     });
+
+    console.log('[FAQ Filters] Initialization complete!');
   }
 
 })();
