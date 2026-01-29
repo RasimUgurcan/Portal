@@ -387,68 +387,6 @@
     loadPage(url, true);
   });
 
-  function initPage() {
-    initYear();
-    initContactForm();
-    initSmoothAnchors();
-    initCollapsibleCards();
-  }
-
-  function shouldHandleNavigation(url) {
-    if (url.origin !== window.location.origin) return false;
-    if (url.pathname.startsWith('/portal')) return false;
-    if (url.pathname.startsWith('/api/')) return false;
-    if (url.pathname.startsWith('/assets/')) return false;
-    return true;
-  }
-
-  async function loadPage(url, pushState = true) {
-    const main = document.querySelector('main');
-    if (!main) {
-      window.location.href = url.href;
-      return;
-    }
-
-    // CLS Ã¶nleme: Ä°Ã§eriÄŸi deÄŸiÅŸtirmeden Ã¶nce yÃ¼ksekliÄŸi koru
-    const currentHeight = main.offsetHeight;
-    main.style.minHeight = `${currentHeight}px`;
-
-    // Animasyonu kaldÄ±r - direkt iÃ§eriÄŸi deÄŸiÅŸtir
-    try {
-      const response = await fetch(url.href, { headers: { 'X-Requested-With': 'fetch' }, cache: 'no-cache' });
-      if (!response.ok) throw new Error('Fetch failed');
-      const html = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const nextMain = doc.querySelector('main');
-      const nextTitle = doc.querySelector('title');
-
-      if (!nextMain) throw new Error('No main found');
-
-      main.innerHTML = nextMain.innerHTML;
-      if (nextTitle) {
-        document.title = nextTitle.textContent;
-      }
-      if (pushState) {
-        window.history.pushState({}, '', url.href);
-      }
-      initPage();
-      // Animasyon olmadan direkt gÃ¶rÃ¼nÃ¼r yap
-      main.classList.add('is-visible');
-
-      // CLS Ã¶nleme: Yeni iÃ§erik yÃ¼klendikten sonra min-height'i kaldÄ±r
-      requestAnimationFrame(() => {
-        main.style.minHeight = '';
-      });
-
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (error) {
-      main.style.minHeight = '';
-      window.location.href = url.href;
-    }
-  }
-
   window.addEventListener('popstate', () => {
     const hash = window.location.hash.replace('#', '');
     const main = document.querySelector('main');

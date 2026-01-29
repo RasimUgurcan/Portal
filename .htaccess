@@ -72,13 +72,26 @@ DirectorySlash Off
     # 3. Remove trailing slash (External Redirection)
     # Even for directories, we want to remove the slash from the URL
     RewriteCond %{REQUEST_URI} ^(.+)/$
+    RewriteCond %{REQUEST_URI} !^/api/
     RewriteRule ^(.+)/$ /$1 [R=301,L]
+    
+    # Force no-slash for portal explicitly to be absolutely sure
+    RewriteCond %{REQUEST_URI} ^/portal/$
+    RewriteRule ^(.*)$ https://eysglobal.com.tr/portal [R=301,L]
+    
+    RewriteCond %{REQUEST_URI} ^/eys-portal/$
+    RewriteRule ^(.*)$ https://eysglobal.com.tr/eys-portal [R=301,L]
     
     # 4. Handle Directory Index Internally (Internal Mapping)
     # This allows /sss to load sss/index.html WITHOUT showing the slash
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteCond %{REQUEST_FILENAME}/index.html -f
     RewriteRule ^(.*)$ $1/index.html [L]
+    
+    # Handle /eys-portal explicitly
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME}/index.php -f
+    RewriteRule ^(.*)$ $1/index.php [L]
     
     # ====================================
     # SECURITY RULES
